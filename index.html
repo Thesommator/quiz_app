@@ -3,32 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Quiz</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Quick Quiz - Hardware Basics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .quiz-header {
+            padding: 35px;
+        }
+
+        .question-counter {
+            text-align: center;
+            color: #2a5298;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #222;
+            margin-bottom: 30px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            margin: 18px 0;
+            background: #f4f7ff;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 16px 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        ul li:hover {
+            background: #e8f0ff;
+            border-color: #2a5298;
+            transform: translateX(5px);
+        }
+
+        ul li input {
+            transform: scale(1.3);
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        ul li label {
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #1e3c72, #16335f);
+            letter-spacing: 1px;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #4287f5, #6942f5);
+            margin-top: 0;
+            border-radius: 12px;
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(135deg, #78f542, #42f5aa);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .completion-screen {
+            text-align: center;
+            padding: 50px 35px;
+        }
+
+        .completion-screen h1 {
+            color: #2a5298;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: none;
+        }
+
+        .completion-screen h2 {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .completion-screen .score-highlight {
+            font-size: 2.5rem;
+            color: #2a5298;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .quiz-header {
+                padding: 25px;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            ul li label {
+                font-size: 1rem;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Quiz App</h1>
+    <h1>💻 Hardware Quiz</h1>
     <div class="quiz-container" id="quiz">
-        <div class="quiz-header">
-            <h2 id="question">Question Text</h2>
-            <ul>
-                <li>
-                    <input type="radio" name="answer" id="a" class="answer">
-                    <label for="a" id="a_text">Answer A</label>
-                </li>
-                <li>
-                    <input type="radio" name="answer" id="b" class="answer">
-                    <label for="b" id="b_text">Answer B</label>
-                </li>
-                <li>
-                    <input type="radio" name="answer" id="c" class="answer">
-                    <label for="c" id="c_text">Answer C</label>
-                </li>
-            </ul>
-        </div>
-        <button id="submit">Submit</button>
+        <!-- Quiz content will be dynamically inserted -->
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const quizData = [
+            {
+                question: "Which hardware component is known as the brain of the computer?",
+                a: "RAM",
+                b: "CPU",
+                c: "GPU",
+                d: "SSD",
+                correct: "b"
+            },
+            {
+                question: "Which device is used to permanently store data?",
+                a: "Monitor",
+                b: "RAM",
+                c: "Hard Drive",
+                d: "Keyboard",
+                correct: "c"
+            },
+            {
+                question: "What does RAM stand for?",
+                a: "Read Access Memory",
+                b: "Random Access Memory",
+                c: "Run Access Module",
+                d: "Rapid Application Memory",
+                correct: "b"
+            },
+            {
+                question: "Which component supplies power to the computer?",
+                a: "Motherboard",
+                b: "Cooling Fan",
+                c: "Power Supply Unit",
+                d: "Processor",
+                correct: "c"
+            },
+            {
+                question: "Which hardware component displays visual output?",
+                a: "Mouse",
+                b: "Printer",
+                c: "Scanner",
+                d: "Monitor",
+                correct: "d"
+            },
+            {
+                question: "What is the main circuit board of a computer called?",
+                a: "Processor",
+                b: "Motherboard",
+                c: "Heat Sink",
+                d: "Power Board",
+                correct: "b"
+            },
+            {
+                question: "Which component is mainly responsible for graphics processing?",
+                a: "GPU",
+                b: "CPU",
+                c: "SSD",
+                d: "RAM",
+                correct: "a"
+            }
+        ];
+
+        let currentQuiz = 0;
+        let score = 0;
+
+        // Function to render the quiz
+        function renderQuiz() {
+            const quizContainer = document.getElementById("quiz");
+            
+            // Build the quiz HTML
+            quizContainer.innerHTML = `
+                <div class="quiz-header">
+                    <div class="question-counter">Question ${currentQuiz + 1} of ${quizData.length}</div>
+                    <h2 id="question">${quizData[currentQuiz].question}</h2>
+                    <ul>
+                        <li>
+                            <input type="radio" name="answer" id="a" class="answer">
+                            <label for="a" id="a_text">${quizData[currentQuiz].a}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="answer" id="b" class="answer">
+                            <label for="b" id="b_text">${quizData[currentQuiz].b}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="answer" id="c" class="answer">
+                            <label for="c" id="c_text">${quizData[currentQuiz].c}</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="answer" id="d" class="answer">
+                            <label for="d" id="d_text">${quizData[currentQuiz].d}</label>
+                        </li>
+                    </ul>
+                </div>
+                <button id="submit">Submit Answer</button>
+            `;
+
+            // Add event listener to the submit button
+            const submitBtn = document.getElementById("submit");
+            submitBtn.addEventListener("click", handleSubmit);
+        }
+
+        function deselectAnswers() {
+            const answerEls = document.querySelectorAll(".answer");
+            answerEls.forEach(answer => {
+                answer.checked = false;
+            });
+        }
+
+        function getSelected() {
+            const answerEls = document.querySelectorAll(".answer");
+            let answer;
+
+            answerEls.forEach(answerEl => {
+                if(answerEl.checked) {
+                    answer = answerEl.id;
+                }
+            });
+
+            return answer;
+        }
+
+        function handleSubmit() {
+            const answer = getSelected();
+
+            if(answer) {
+                if(answer === quizData[currentQuiz].correct) {
+                    score++;
+                }
+
+                currentQuiz++;
+
+                if(currentQuiz < quizData.length) {
+                    renderQuiz();
+                } else {
+                    showCompletionScreen();
+                }
+            } else {
+                alert("Please select an answer before submitting!");
+            }
+        }
+
+        function showCompletionScreen() {
+            const quizContainer = document.getElementById("quiz");
+            
+            let message = "";
+            if(score === quizData.length) {
+                message = "Perfect! 🌟 Computer Hardware Expert!";
+            } else if(score >= 5) {
+                message = "Great job! 👍 You know your hardware well!";
+            } else if(score >= 3) {
+                message = "Good effort! 📚 Keep learning about hardware!";
+            } else {
+                message = "Keep practicing! 💪 You'll get better!";
+            }
+            
+            quizContainer.innerHTML = `
+                <div class="completion-screen">
+                    <h1> Quiz Completed! </h1>
+                    <h2>Your Score:</h2>
+                    <div class="score-highlight">${score} / ${quizData.length}</div>
+                    <h2 style="margin-top: 20px;">
+                        ${message}
+                    </h2>
+                    <button class="restart-btn" id="restartBtn">
+                         Restart Quiz
+                    </button>
+                </div>
+            `;
+
+            // Add event listener to restart button
+            const restartBtn = document.getElementById("restartBtn");
+            restartBtn.addEventListener("click", restartQuiz);
+        }
+
+        function restartQuiz() {
+            // Reset all variables
+            currentQuiz = 0;
+            score = 0;
+            
+            // Re-render the quiz
+            renderQuiz();
+        }
+
+        // Initialize the quiz
+        renderQuiz();
+    </script>
 </body>
 </html>
